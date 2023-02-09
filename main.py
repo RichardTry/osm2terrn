@@ -1,11 +1,12 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 """
 Created on Mon Mar 22 20:27:25 2021
 
 @author: Joako360
 """
-from download import download_menu, download_data
-from heightmapper import heightmapper
+from utils.download import download_menu, download_data
+from generate.heightmapper import heightmapper
 from os import name, system
 
 class map_data:
@@ -24,7 +25,7 @@ def dlcity()->None:
         'N': map.data['area']['bbox_north'][0],
         'S': map.data['area']['bbox_south'][0],
         'E': map.data['area']['bbox_east'][0],
-        'W': map.data['area']['bbox_west'][0]       
+        'W': map.data['area']['bbox_west'][0] 
     }
 
 def load()->None:
@@ -36,10 +37,10 @@ def save()->None:
 def export()->None:
     if map.bounds != {}:
         map.heightmap = heightmapper(map.bounds)
-        
+
 def exit()->None:
     print('exit...')
-    
+
 def clear()->None:
     if name == 'nt':
         system('cls')

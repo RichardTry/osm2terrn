@@ -10,7 +10,7 @@ from math import ceil, inf
 import numpy as np
 import requests
 
-from extras import AIRMAP_ELEVATION_API_KEY
+from utils.extras import AIRMAP_ELEVATION_API_KEY
 # query the AirMap elevation API for the given boundary box.
 # returns numpy array with elevaton map.
 def heightmapper(bounds:Dict):

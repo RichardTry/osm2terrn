@@ -21,12 +21,35 @@ def data_from_gdf(gdf:GeoDataFrame)->dict:
         'area': gdf
     }
     return d
+
+def my_translate(geom, xoff=0.0, yoff=0.0, zoff=0.0):
+    r"""Returns a translated geometry shifted by offsets along each dimension.
+
+    The general 3D affine transformation matrix for translation is:
+
+        / 1  0  0 xoff \
+        | 0  1  0 yoff |
+        | 0  0  1 zoff |
+        \ 0  0  0   1  /
+    """
+    if geom.empty:
+        return geom
+
+    # fmt: off
+    matrix = (1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0,
+              xoff, yoff, zoff)
+    # fmt: on
+    return affinity.affine_transform(geom, matrix)
+
 # translate GeoDataFrame with same CRS and bounds to new coordinates with x_0,y_0 as the new origin
 def translate_gdf(gdf:GeoDataFrame, x_0=None, y_0=None)->GeoDataFrame:
     if x_0 is None: x_0 = gdf.bounds.minx
     if y_0 is None: y_0 = gdf.bounds.maxy
     gdf_trns = gdf.copy()
-    gdf_trns = affinity.translate(gdf,xoff=x_0, yoff=y_0)
+    print(gdf)
+    gdf_trns = my_translate(gdf,xoff=x_0, yoff=y_0)
     return gdf_trns
 
 

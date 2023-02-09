@@ -6,16 +6,15 @@ Created on Mon Mar 22 21:06:05 2021
 """
 from collections import OrderedDict
 from typing import Dict, Tuple
-from extras import AIRMAP_ELEVATION_API_KEY, colors, custom_tags, map_geometries, networks
-from transform import data_from_gdf, transform_gdf, transform_graph
+from utils.extras import AIRMAP_ELEVATION_API_KEY, colors, custom_tags, map_geometries, networks
+from utils.transform import data_from_gdf, transform_gdf, transform_graph
 from networkx import MultiDiGraph
 import osmnx as ox
 from osmnx._errors import EmptyOverpassResponse
 
-ox.config(
-    elevation_provider='airmap',
-    log_console=True, 
-    useful_tags_way=ox.settings.useful_tags_way + custom_tags)
+ox.settings.elevation_provider='airmap'
+ox.settings.log_console=True
+ox.settings.useful_tags_way=ox.settings.useful_tags_way + custom_tags
 ox.__version__
 api_key=AIRMAP_ELEVATION_API_KEY
 #custom_filter='["railway"~"tram|rail"]'
@@ -117,4 +116,3 @@ def download_data(place:str, which:int)->Dict:
 
     return d
 
-    
