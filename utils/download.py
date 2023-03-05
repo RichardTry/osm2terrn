@@ -81,7 +81,14 @@ def download_menu()->Tuple:
             print(colors.bgRed + result_line + colors.reset)
         else:
             print(result_line)
-    which = int(input("Which result? {option}\nHint: cities may have \"administrative boundary\" tag.: "))
+    while True:
+        which = input("Which result? {option}\nHint: cities may have \"administrative boundary\" tag.: ")
+        if not str.isdecimal(which):
+            print(which, "is not an integer. Input result number from one above.")
+            continue
+        break
+    which = int(which)
+        
     return (place, which)
 
 def download_data(place:str, which:int)->Dict:
