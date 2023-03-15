@@ -17,7 +17,8 @@ import osmnx as ox
 # TODO: add file destination argument
 if __name__ == "__main__":
     tobj = open("roads.tobj", "w+")
-    tobj.write("\t".join("//", "x", "y", "z", "rx", "ry", "rz", "odefname (without .odef file extension)") + "\n")
+    headers = ("x", "y", "z", "rx", "ry", "rz", "odefname (without .odef file extension)")
+    tobj.write('// ' + "\t".join(headers))
 
     data = download_data(*download_menu())
     x_0 = data['x_0']
@@ -28,9 +29,9 @@ if __name__ == "__main__":
 
     for index, row in nodes_trns.iterrows():
         y = float(row['elevation'])
+        # TODO: why [6:]
         coords = str(row['geometry'])[6:]
-        coords = coords.replace('(', '').replace(')', '')
-        x, z = coords.split()
+        x, z = coords.strip("()").split()
         x = float(x)
         z = -float(z)
         tobj.write(f"{x}, {y}, {z}, 0.0, 0.0, 0.0, road-crossing\n")

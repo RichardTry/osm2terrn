@@ -22,19 +22,23 @@ ox.__version__
 # download graph from OSM with osmnx parameters: place query, wich option and optional custom filters
 
 # TODO: pass 'api_key' from config.json as argument
-def download_graph(place_query: str, which=1, cf=None) -> MultiDiGraph:
+def download_graph(place_query: str, which = 1, cf = None) -> MultiDiGraph:
     try:
         G = ox.graph_from_place(
             place_query, 
-            network_type="drive_service", 
-            simplify=False, 
-            retain_all=True, 
-            which_result=which, 
-            custom_filter=cf
+            network_type = "drive_service", 
+            simplify = False, 
+            retain_all = True, 
+            which_result = which, 
+            custom_filter = cf
         )
         G = ox.simplify_graph(G)
+        # TODO: limit 100, should split payload into chunks
         G = ox.add_node_elevations_google(
-            G, None, url_template = "https://api.opentopodata.org/v1/aster30m?locations={}"
+            G = G,
+            api_key = None,
+            max_locations_per_batch = 100,
+            url_template = "https://api.opentopodata.org/v1/aster30m?locations={}"
         )
 
         G = ox.add_edge_grades(G)
@@ -42,14 +46,8 @@ def download_graph(place_query: str, which=1, cf=None) -> MultiDiGraph:
         return G
     except ValueError:
         print("Found no graph nodes within the requested polygon.")
-        # TODO: why assigning None if can just pass and return None automatically?
-        G = None
-        return G
     except EmptyOverpassResponse:
         print("There are no data elements in the response JSON")
-        # TODO: why assigning None if can just pass and return None automatically?
-        G = None
-        return G
 
 # Ask for a place, makes a Nominatim query and prints the results in a table
 # Returns a tuple of the place name and the index of the result chosen by the user

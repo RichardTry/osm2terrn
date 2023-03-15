@@ -50,15 +50,15 @@ def translate_all_geometry_cells(geom: GeoDataFrame, xoff=0.0, yoff=0.0, zoff=0.
 
 
 # translate GeoDataFrame with same CRS and bounds to new coordinates with x_0,y_0 as the new origin
-def translate_gdf(gdf:GeoDataFrame, x_0=None, y_0=None)->GeoDataFrame:
-    if x_0 is None: x_0 = gdf.bounds.minx
-    if y_0 is None: y_0 = gdf.bounds.maxy
+def translate_gdf(gdf: GeoDataFrame, x_0 = None, y_0 = None) -> GeoDataFrame:
+    x_0 = gdf.bounds.minx if x_0 is None else x_0
+    y_0 = gdf.bounds.maxy if y_0 is None else y_0
     gdf_trns = gdf.copy()
-    gdf_trns = translate_all_geometry_cells(gdf, xoff=x_0, yoff=y_0)
+    gdf_trns = translate_all_geometry_cells(gdf, xoff = x_0, yoff = y_0)
     return gdf_trns
 
 
-# TODO:  #networks use only (?)
+# TODO: networks use only (?)
 def translate_graph(G: MultiDiGraph, x_0: float, y_0: float) -> MultiDiGraph:
     G_trns = G.copy()
     G_trns.graph['x_0'] = x_0
@@ -79,7 +79,7 @@ def transform_gdf(gdf: GeoDataFrame, x_0 = None, y_0 = None) -> tuple:
         return gdf
 
 
-# TODO:  #networks use only (?)
+# TODO: networks use only (?)
 def transform_graph(G :MultiDiGraph, x_0: float, y_0: float) -> tuple:
     G_proj = project_graph(G)
     G_trns = translate_graph(G_proj, x_0, y_0)

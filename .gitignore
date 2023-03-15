@@ -131,3 +131,6 @@ dmypy.json
 cache/
 generate/cache/
 
+# Do not include the example as it is changed
+generated/roads.tobj
+

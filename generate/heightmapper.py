@@ -50,10 +50,10 @@ def heightmapper(bounds: Dict) -> np.ndarray:
         for j in range(m):  # LON
             lon_stop = (lon_start + lon_step)
             # TODO: request made ugly
-            params = ('points', ",".join(str(x) for x in (lat_start, lon_start, lat_stop, lon_stop)))
-            res = requests.get(url + params[0] + '=' + params[1], headers = headers)
+            points = ",".join(str(x) for x in (lat_start, lon_start, lat_stop, lon_stop))
+            res = requests.get(url, data = {"points": points}, headers = headers)
             if res.ok:
-                data = res.json()['data']
+                data = res.json()["data"]
                 tmp_lst.append(np.matrix(data['carpet']))
                 maxh = data['stats']['max'] if data['stats']['max'] > maxh else maxh
                 minh = data['stats']['min'] if data['stats']['min'] < minh else minh
