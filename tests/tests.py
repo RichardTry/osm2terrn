@@ -25,7 +25,7 @@ G = ox.add_node_elevations_google(
 G = ox.add_edge_bearings(G)
 G = ox.add_edge_grades(G)
 G_proj = ox.project_graph(G)
-nodes, edges=ox.graph_to_gdfs(G_proj)
+nodes, edges = ox.graph_to_gdfs(G_proj)
 area = ox.geocode_to_gdf(place_query)
 area_proj = ox.project_gdf(area)
 area_trns, x_0, y_0, size_x, size_y, world_size = translate_gdf(area_proj)
@@ -35,7 +35,7 @@ edges_trns=translate_gdf(edges, x_0, y_0)
 # TODO: should try this method
 # buildings=ox.geometries_from_place(place_query,{'building': True})
 fig, ax = plt.subplots(figsize = [12, 8])
-area_trns.plot(ax = ax, facecolor= ' k')
+area_trns.plot(ax = ax, facecolor = 'k')
 edges_trns.plot(ax = ax, linewidth = 1)
 # TODO: why are those calls commented? maybe we should try to execute them
 # buildings.plot(ax=ax,facecolor='r',alpha=0.5)
