@@ -10,6 +10,10 @@ from math import ceil, inf
 import numpy as np
 import requests
 
+import os
+import sys
+sys.path.append(os.path.abspath('..'))
+sys.path.append(os.path.abspath('../..'))
 from utils.extras import AIRMAP_ELEVATION_API_KEY
 # query the AirMap elevation API for the given boundary box.
 # returns numpy array with elevaton map.

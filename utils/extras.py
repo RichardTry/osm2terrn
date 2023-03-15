@@ -6,7 +6,8 @@ Created on Mon Mar 22 23:31:05 2021
 """
 AIRMAP_ELEVATION_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' \
                            '.eyJjcmVkZW50aWFsX2lkIjoiY3JlZGVudGlhbHxBUkFBNW1XaVB4Tk9XTkNKNmtHdmxpNm05TVpnIiwiYXBwbGljYXRpb25faWQiOiJhcHBsaWNhdGlvbnxNcUp4a0pQdUp6UEcwa2ZPZHo2cFJpMzBCNG9rIiwib3JnYW5pemF0aW9uX2lkIjoiZGV2ZWxvcGVyfGI5encyS2dDZEFFQWc5SWE0YVJ2TmllNmVER0UiLCJpYXQiOjE2MTU5ODk0NzZ9.apf5s2zrCn3Cv81SyJrVPsVVZeKrBmITdWDcDXYZMvs '
-AIRMAP_CLIENT_ID = '2bac4e5e-8ece-4f58-ba36-09ee5a669574'
+# AIRMAP_CLIENT_ID = '2bac4e5e-8ece-4f58-ba36-09ee5a669574'
+
 # List of custom tags added in the osmnx configuration
 custom_tags = [
     'aerialway',
