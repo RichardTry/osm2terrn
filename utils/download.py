@@ -42,10 +42,12 @@ def download_graph(place_query:str, which=1, cf=None) -> MultiDiGraph:
         return G
     except ValueError:
         print("Found no graph nodes within the requested polygon.")
+        # TODO: why assigning None if can just pass and return None automatically?
         G = None
         return G
     except EmptyOverpassResponse:
         print("There are no data elements in the response JSON")
+        # TODO: why assigning None if can just pass and return None automatically?
         G = None
         return G
 
@@ -74,10 +76,16 @@ def download_menu()->Tuple:
         nmntm_req = OrderedDict([('q',place),('format','json')])
         nmntm_res = ox.downloader.nominatim_request(nmntm_req)
     
-    print("{:<6}║{:<50}║{:<14}║{:<10}".format('Option','Display name','Type','Class'))
+    # TODO: looks creepy, maybe we should refactor it 
+    print("{:<6}║{:<50}║{:<14}║{:<10}".format('Option', 'Display name', 'Type', 'Class'))
     print('═' * 6 + '╬' + '═' * 50 + '╬' + '═' * 14 + '╬' + '═' * 10)
     for idx, result in enumerate(nmntm_res,start=1):
-        result_line = "{:<6}║{:<50}║{:<14}║{:<10}".format(str(idx), result['display_name'][:50], result['type'][:14], result['class'][:10])
+        result_line = "{:<6}║{:<50}║{:<14}║{:<10}".format(
+            str(idx),
+            result['display_name'][:50],
+            result['type'][:14],
+            result['class'][:10]
+        )
         if result['type'] == 'administrative' or result['class'] == 'boundary':
             print(colors.bgGreen + result_line + colors.reset)
         elif result['osm_type'] != 'relation':
@@ -92,13 +100,14 @@ def download_menu()->Tuple:
         break
     which = int(which)
         
-    return (place, which)
+    return place, which
 
-def download_data(place:str, which:int)->Dict:
+
+def download_data(place: str, which: int) -> Dict:
     d = {}
     if not which:
         return d
-    area = ox.geocode_to_gdf(place, which_result=which)
+    area = ox.geocode_to_gdf(place, which_result = which)
     d = data_from_gdf(area)
     
     x_0 = d['x_0']
@@ -106,7 +115,8 @@ def download_data(place:str, which:int)->Dict:
     
     for typ, tag in map_geometries.items():
         print("Acquiring {} areas data".format(typ))
-        gdf = ox.geometries_from_place(place, tag ,which_result=which)
+        # TODO: handle objects without Polygon object in geometry (with prompt maybe)
+        gdf = ox.geometries_from_place(place, tag, which_result = which)
         if not gdf.empty:
             gdf_trns = transform_gdf(gdf, x_0, y_0)
             d[typ] = gdf_trns
@@ -115,7 +125,7 @@ def download_data(place:str, which:int)->Dict:
         
     for typ, cf in networks.items():
         print("Acquiring {} network data".format(typ))
-        G = download_graph(place, which=which, cf=cf)
+        G = download_graph(place, which = which, cf = cf)
         if G is not None:
             G_trns = transform_graph(G, x_0, y_0)
             d[typ] = G_trns

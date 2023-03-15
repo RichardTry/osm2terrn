@@ -13,8 +13,8 @@ import requests
 # TODO: path problems are irritating
 import os
 import sys
-sys.path.append(os.path.abspath('..'))
-sys.path.append(os.path.abspath('../..'))
+sys.path.append(os.path.abspath(".."))
+sys.path.append(os.path.abspath("../.."))
 from utils.extras import AIRMAP_ELEVATION_API_KEY
 # query the AirMap elevation API for the given boundary box.
 # returns numpy array with elevaton map.
@@ -47,8 +47,9 @@ def heightmapper(bounds: Dict):
         lat_stop = lat_start + lat_step
         for j in range(m):  # LON
             lon_stop = (lon_start + lon_step)
-            params = ('points', str(lat_start) + ',' + str(lon_start) + ',' + str(lat_stop) + ',' + str(lon_stop))
-            res = requests.get(url + params[0] + '=' + params[1], headers=headers)
+            # TODO: request made ugly
+            params = ('points', ",".join(str(x) for x in (lat_start, lon_start, lat_stop, lon_stop)))
+            res = requests.get(url + params[0] + '=' + params[1], headers = headers)
             if res.ok:
                 data = res.json()['data']
                 tmp_lst.append(np.matrix(data['carpet']))
@@ -56,10 +57,12 @@ def heightmapper(bounds: Dict):
                 minh = data['stats']['min'] if data['stats']['min'] < minh else minh
             else:
                 print('''Airmap Elevation API Error
-                      Status code {}: {}'''.format(res.status_code,res.reason))
+                      Status code {}: {}'''.format(res.status_code, res.reason))
             lon_start = lon_stop
         lat_start = lat_stop
         h_stack.append(np.hstack(tmp_lst))
+
+    # TODO: do we need the prints? maybe only in verbose mode
     print(minh)
     print(maxh)
     hm = np.vstack(h_stack)

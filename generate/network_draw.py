@@ -32,6 +32,6 @@ for index, row in nodes_trns.iterrows():
     x, z = coords.split()
     x = float(x)
     z = -float(z)
-    tobj.write("{}, {}, {}, 0.0, 0.0, 0.0, road-crossing\n".format(str(x), str(y), str(z)))
+    tobj.write(f"{x}, {y}, {z}, 0.0, 0.0, 0.0, road-crossing\n")
     
 tobj.close()
