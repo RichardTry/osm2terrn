@@ -108,14 +108,14 @@ def download_menu() -> Union[Tuple[str, int], Tuple[None, None]]:
 
 
 def download_data(place: str, which: int) -> Dict:
-    d = {}
-    if not which:
-        return d
+    # TODO: tuple of None is unnecessary; maybe 'which' can be None though
+    if place is None or which is None or which == 0:
+        return {}
     area = ox.geocode_to_gdf(place, which_result = which)
     d = data_from_gdf(area)
     
-    x_0 = d['x_0']
-    y_0 = d['y_0']
+    x_0 = d["x_0"]
+    y_0 = d["y_0"]
     
     for typ, tag in map_geometries.items():
         print("Acquiring {} areas data".format(typ))
