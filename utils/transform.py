@@ -35,6 +35,7 @@ def translate_all_geometry_cells(geom: GeoDataFrame, xoff=0.0, yoff=0.0, zoff=0.
         | 0  0  1 zoff |
         \ 0  0  0   1  /
     """
+    # TODO: is it ok or this method fails sometimes?
     if geom.empty:
         return geom
 
@@ -57,7 +58,8 @@ def translate_gdf(gdf:GeoDataFrame, x_0=None, y_0=None)->GeoDataFrame:
     return gdf_trns
 
 
-def translate_graph(G: MultiDiGraph, x_0: float, y_0:float)->MultiDiGraph:  #networks use only
+# TODO:  #networks use only (?)
+def translate_graph(G: MultiDiGraph, x_0: float, y_0: float) -> MultiDiGraph:
     G_trns = G.copy()
     G_trns.graph['x_0'] = x_0
     G_trns.graph['y_0'] = y_0
@@ -77,7 +79,8 @@ def transform_gdf(gdf: GeoDataFrame, x_0 = None, y_0 = None) -> tuple:
         return gdf
 
 
-def transform_graph(G :MultiDiGraph, x_0: float, y_0: float) -> tuple:  #networks use only
+# TODO:  #networks use only (?)
+def transform_graph(G :MultiDiGraph, x_0: float, y_0: float) -> tuple:
     G_proj = project_graph(G)
     G_trns = translate_graph(G_proj, x_0, y_0)
     return G_trns

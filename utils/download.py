@@ -5,8 +5,8 @@ Created on Mon Mar 22 21:06:05 2021
 @author: Joako360
 """
 from collections import OrderedDict
-from typing import Dict, Tuple
-from utils.extras import AIRMAP_ELEVATION_API_KEY, colors, custom_tags, map_geometries, networks
+from typing import Dict, Tuple, Union
+from utils.extras import AIRMAP_ELEVATION_API_KEY, Colors, custom_tags, map_geometries, networks
 from utils.transform import data_from_gdf, transform_gdf, transform_graph
 from networkx import MultiDiGraph
 import osmnx as ox
@@ -22,7 +22,7 @@ ox.__version__
 # download graph from OSM with osmnx parameters: place query, wich option and optional custom filters
 
 # TODO: pass 'api_key' from config.json as argument
-def download_graph(place_query:str, which=1, cf=None) -> MultiDiGraph:
+def download_graph(place_query: str, which=1, cf=None) -> MultiDiGraph:
     try:
         G = ox.graph_from_place(
             place_query, 
@@ -55,16 +55,18 @@ def download_graph(place_query:str, which=1, cf=None) -> MultiDiGraph:
 # Returns a tuple of the place name and the index of the result chosen by the user
 
 
-def download_menu()->Tuple:
+# TODO: maybe returning None instead of (None, None) would be better 
+def download_menu() -> Union[Tuple[str, int], Tuple[None, None]]:
     
-    place=input(
+    place = input(
         '''Enter the city name, which will also be the file name. 
         A list of results will be displayed.
         Hint: City may be OSM admin_level = 7+: '''
         ).title()
     if place == '0':
         return None, None
-    nmntm_req = OrderedDict([('q',place),('format','json')])
+
+    nmntm_req = OrderedDict([('q', place), ('format', 'json')])
     nmntm_res = ox.downloader.nominatim_request(nmntm_req)
     
     while len(nmntm_res) == 0:
@@ -72,8 +74,8 @@ def download_menu()->Tuple:
         place = input("Enter the city name, which will also be the file name. (Enter 0 for exit): ").title()
         if place == '0':
             return None, None
-            break
-        nmntm_req = OrderedDict([('q',place),('format','json')])
+    
+        nmntm_req = OrderedDict([('q', place),('format', 'json')])
         nmntm_res = ox.downloader.nominatim_request(nmntm_req)
     
     # TODO: looks creepy, maybe we should refactor it 
@@ -87,17 +89,21 @@ def download_menu()->Tuple:
             result['class'][:10]
         )
         if result['type'] == 'administrative' or result['class'] == 'boundary':
-            print(colors.bgGreen + result_line + colors.reset)
+            print(Colors.bgGreen + result_line + Colors.reset)
         elif result['osm_type'] != 'relation':
-            print(colors.bgRed + result_line + colors.reset)
+            print(Colors.bgRed + result_line + Colors.reset)
         else:
             print(result_line)
     while True:
-        which = input("Which result? {option}\nHint: cities may have \"administrative boundary\" tag.: ")
+        which = input(
+            'Which result? {option}\n'
+            'Hint: cities may have "administrative boundary" tag.: '
+        )
         if not str.isdecimal(which):
             print(which, "is not an integer. Input result number from one above.")
             continue
         break
+
     which = int(which)
         
     return place, which

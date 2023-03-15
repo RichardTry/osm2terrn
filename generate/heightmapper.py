@@ -18,8 +18,10 @@ sys.path.append(os.path.abspath("../.."))
 from utils.extras import AIRMAP_ELEVATION_API_KEY
 # query the AirMap elevation API for the given boundary box.
 # returns numpy array with elevaton map.
+
+
 # TODO: WHAT DOES THIS THING DO? 0_o
-def heightmapper(bounds: Dict):
+def heightmapper(bounds: Dict) -> np.ndarray:
     # TODO: get rid of airmap and switch to TopoData
     api_key = AIRMAP_ELEVATION_API_KEY
     url = 'https://api.airmap.com/elevation/v1/ele/carpet?'

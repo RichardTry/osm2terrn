@@ -32,10 +32,12 @@ area_trns, x_0, y_0, size_x, size_y, world_size = translate_gdf(area_proj)
 nodes_trns=translate_gdf(nodes, x_0, y_0)
 edges_trns=translate_gdf(edges, x_0, y_0)
 
+# TODO: should try this method
 # buildings=ox.geometries_from_place(place_query,{'building': True})
 fig, ax = plt.subplots(figsize = [12, 8])
 area_trns.plot(ax = ax, facecolor= ' k')
 edges_trns.plot(ax = ax, linewidth = 1)
+# TODO: why are those calls commented? maybe we should try to execute them
 # buildings.plot(ax=ax,facecolor='r',alpha=0.5)
 # lat=np.arange(area.bbox_south[0],area.bbox_north[0],1/3600)
 # lon=np.arange(area.bbox_west[0],area.bbox_east[0],1/3600)

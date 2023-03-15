@@ -17,7 +17,7 @@ custom_tags = [
     'footway',
     'railway',
     'waterway',
-    ]
+]
 # Dictionary of areas in the map, such as buildings footprint, parks or lakes.
 # Each category has its own dict of type:tag pairs named like in OSM map fratures.
 map_geometries = {
@@ -26,18 +26,19 @@ map_geometries = {
         'building': True,
         'sport': 'stadium',
         'tourism': 'museum',
-        },
+    },
     'parks': {
         'landuse': 'grass',
         'natural': 'wood',
         'leisure': 'park'
-        },
+    },
     'lakes': {
         'natural': 'water',
         'water': 'lake',
         'water': 'river',
-        }
     }
+}
+
 # Dictionary of networks, such as roads, rails or rivers. 
 # Values are string literal single quoted list of tags, used for custom filter download from OSM.
 networks = {
@@ -45,8 +46,9 @@ networks = {
     'rails': '["railway"~"tram|rail"]',
     'rivers': '["waterway"~"river|stream|canal"]'
 }
+
 # Class of ANSI colors escape sequences for formatting terminal output text
-class colors:
+class Colors:
     reset = "\033[0m"
 
     # Black
