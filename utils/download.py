@@ -12,6 +12,8 @@ from networkx import MultiDiGraph
 import osmnx as ox
 from osmnx._errors import EmptyOverpassResponse
 
+
+# TODO: OpenTopoData is now the elevation provider, deprecated
 ox.settings.elevation_provider='airmap'
 ox.settings.log_console=True
 ox.settings.useful_tags_way=ox.settings.useful_tags_way + custom_tags
@@ -37,7 +39,6 @@ def download_graph(place_query:str, which=1, cf=None) -> MultiDiGraph:
 
         G = ox.add_edge_grades(G)
         G = ox.add_edge_bearings(G)
-        print("Success!")
         return G
     except ValueError:
         print("Found no graph nodes within the requested polygon.")
