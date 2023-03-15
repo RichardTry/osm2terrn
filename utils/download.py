@@ -34,6 +34,8 @@ def download_graph(place_query: str, which = 1, cf = None) -> MultiDiGraph:
         )
         G = ox.simplify_graph(G)
         # TODO: limit 100, should split payload into chunks
+        # TODO: (osmnx) rename osmnx method to 'add_node_elevations_api_request'
+        # TODO: (osmnx) api_key should not be required parameter
         G = ox.add_node_elevations_google(
             G = G,
             api_key = None,
