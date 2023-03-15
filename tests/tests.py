@@ -3,6 +3,11 @@ import osmnx as ox
 from extras import AIRMAP_ELEVATION_API_KEY, custom_tags
 from transform import translate_gdf
 
+import sys
+import os
+sys.path.append(os.abspath(".."))
+sys.path.append(os.abspath("../extras"))
+
 
 ox.config(elevation_provider='airmap',log_console=True,useful_tags_way=ox.settings.useful_tags_way + custom_tags)
 api_key = AIRMAP_ELEVATION_API_KEY
@@ -11,7 +16,9 @@ ox.__version__
 place = 'Luis Guillón, Buenos Aires, Argentina'
 place_query = {'city':'Luis Guillón', 'state':'Buenos Aires', 'country':'Argentina'}
 G = ox.graph_from_place(place_query,'["waterway"~"river|stream|canal"]')
-G = ox.add_node_elevations(G, api_key=api_key)
+G = ox.add_node_elevations_google(
+    G, None, url_template = "https://api.opentopodata.org/v1/aster30m?locations={}"
+)
 G = ox.add_edge_bearings(G)
 G = ox.add_edge_grades(G)
 G_proj = ox.project_graph(G)

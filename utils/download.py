@@ -16,12 +16,11 @@ ox.settings.elevation_provider='airmap'
 ox.settings.log_console=True
 ox.settings.useful_tags_way=ox.settings.useful_tags_way + custom_tags
 ox.__version__
-api_key=AIRMAP_ELEVATION_API_KEY
-#custom_filter='["railway"~"tram|rail"]'
+# custom_filter='["railway"~"tram|rail"]'
 # download graph from OSM with osmnx parameters: place query, wich option and optional custom filters
 
-
-def download_graph(place_query:str,which=1,cf=None)->MultiDiGraph:
+# TODO: pass 'api_key' from config.json as argument
+def download_graph(place_query:str, which=1, cf=None) -> MultiDiGraph:
     try:
         G = ox.graph_from_place(
             place_query, 
@@ -32,7 +31,10 @@ def download_graph(place_query:str,which=1,cf=None)->MultiDiGraph:
             custom_filter=cf
         )
         G = ox.simplify_graph(G)
-        G = ox.add_node_elevations(G, api_key=api_key)
+        G = ox.add_node_elevations_google(
+            G, None, url_template = "https://api.opentopodata.org/v1/aster30m?locations={}"
+        )
+
         G = ox.add_edge_grades(G)
         G = ox.add_edge_bearings(G)
         print("Success!")

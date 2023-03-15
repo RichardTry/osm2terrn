@@ -4,8 +4,12 @@ Created on Thu Apr  1 16:52:21 2021
 
 @author: joako360
 """
-from download import download_menu, download_data
-from transform import translate_gdf
+import os
+import sys
+sys.path.append(os.path.abspath('..'))
+sys.path.append(os.path.abspath('../..'))
+from utils.download import download_menu, download_data
+from utils.transform import translate_gdf
 import osmnx as ox
 
 tobj = open("roads.tobj","w+")
