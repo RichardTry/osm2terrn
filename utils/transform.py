@@ -80,7 +80,7 @@ def transform_gdf(gdf: GeoDataFrame, x_0 = None, y_0 = None) -> tuple:
 
 
 # TODO: networks use only (?)
-def transform_graph(G :MultiDiGraph, x_0: float, y_0: float) -> tuple:
+def transform_graph(G: MultiDiGraph, x_0: float, y_0: float) -> tuple:
     G_proj = project_graph(G)
     G_trns = translate_graph(G_proj, x_0, y_0)
     return G_trns
