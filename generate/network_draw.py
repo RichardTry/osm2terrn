@@ -28,12 +28,8 @@ if __name__ == "__main__":
     tobj.write("//some roads\n")
 
     for index, row in nodes_trns.iterrows():
-        y = float(row['elevation'])
-        # TODO: why [6:]
-        coords = str(row['geometry'])[6:]
-        x, z = coords.strip("()").split()
-        x = float(x)
-        z = -float(z)
+        y = float(row["elevation"])
+        x, z = float(row["geometry"].x), -float(row["geometry"].y)
         tobj.write(f"{x}, {y}, {z}, 0.0, 0.0, 0.0, road-crossing\n")
         
     tobj.close()

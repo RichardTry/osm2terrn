@@ -49,7 +49,6 @@ def heightmapper(bounds: Dict) -> np.ndarray:
         lat_stop = lat_start + lat_step
         for j in range(m):  # LON
             lon_stop = (lon_start + lon_step)
-            # TODO: request made ugly
             points = ",".join(str(x) for x in (lat_start, lon_start, lat_stop, lon_stop))
             res = requests.get(url, data = {"points": points}, headers = headers)
             if res.ok:
