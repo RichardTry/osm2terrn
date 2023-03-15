@@ -43,6 +43,8 @@ def heightmapper(bounds: Dict) -> np.ndarray:
     maxh = 0
     minh = inf
     h_stack = []
+
+    # TODO: nested loop with unused counters
     for i in range(n):  # LAT
         tmp_lst = []
         lon_start = bounds['W']  # this will get the "cursor" to the "west margin" again
