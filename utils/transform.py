@@ -9,7 +9,9 @@ from geopandas import GeoDataFrame
 from networkx import MultiDiGraph
 # TODO: removed imports 'graph_from_gdfs, graph_to_gdfs,'
 from osmnx import project_graph, project_gdf
+from osmnx.projection import project_geometry
 from shapely import affinity
+from shapely.geometry import Point
 
 
 # extract offset, x size, y size, map size and the itself from GeoDataFrame and return dict.
@@ -82,6 +84,7 @@ def transform_gdf(gdf: GeoDataFrame, x_0 = None, y_0 = None) -> tuple:
 # TODO: networks use only (?)
 def transform_graph(G: MultiDiGraph, x_0: float, y_0: float) -> tuple:
     G_proj = project_graph(G)
-    G_trns = translate_graph(G_proj, x_0, y_0)
+    origin, _ = project_geometry(Point(x_0, y_0))
+    G_trns = translate_graph(G_proj, origin.x, origin.y)
     return G_trns
         

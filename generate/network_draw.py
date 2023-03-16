@@ -24,10 +24,9 @@ if __name__ == "__main__":
     x_0 = data['x_0']
     y_0 = data['y_0']
     nodes = ox.graph_to_gdfs(data['roads'], nodes = True, edges = False)
-    nodes_trns = translate_gdf(nodes, x_0, y_0)
     tobj.write("//some roads\n")
 
-    for index, row in nodes_trns.iterrows():
+    for index, row in nodes.iterrows():
         y = float(row["elevation"])
         x, z = float(row["geometry"].x), -float(row["geometry"].y)
         tobj.write(f"{x}, {y}, {z}, 0.0, 0.0, 0.0, road-crossing\n")
