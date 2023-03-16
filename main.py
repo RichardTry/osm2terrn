@@ -9,17 +9,17 @@ from utils.download import download_menu, download_data
 from generate.heightmapper import heightmapper
 from os import name, system
 
-class map_data:
+class MapData:
     def __init__(self):
         self.data = {}
         self.bounds = {}
         self.heightmap = [[]]
 
-map = map_data()
+map = MapData()
 
-def dlcity()->None:
+def dlcity() -> None:
     clear()
-    place,which = download_menu()
+    place, which = download_menu()
     map.data = download_data(place, which)
     map.bounds = {
         'N': map.data['area']['bbox_north'][0],
