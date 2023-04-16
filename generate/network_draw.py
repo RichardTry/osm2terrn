@@ -30,5 +30,5 @@ if __name__ == "__main__":
         y = float(row["elevation"])
         x, z = float(row["geometry"].x), -float(row["geometry"].y)
         tobj.write(f"{x}, {y}, {z}, 0.0, 0.0, 0.0, road-crossing\n")
-        
+
     tobj.close()
